@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable max-len */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
@@ -11,7 +12,7 @@
 import '_public/style.css';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { ArrowRight, Settings } from 'react-feather';
+import { ArrowRight, Check, Settings } from 'react-feather';
 import { ipcRenderer } from 'electron';
 
 function CloseButton(): JSX.Element {
@@ -27,11 +28,12 @@ function CloseButton(): JSX.Element {
   );
 }
 
-function AbstractSquare(): JSX.Element {
+function AbstractSquare({ hidden }: {hidden: boolean}): JSX.Element {
+  const extraClass = hidden ? 'hiddenSquare' : '';
   return (
     <>
-      <div className="abstractSquare topRight" />
-      <div className="abstractSquare lowerLeft" />
+      <div className={`abstractSquare topRight ${extraClass}`} />
+      <div className={`abstractSquare lowerLeft ${extraClass}`} />
     </>
   );
 }
@@ -47,10 +49,20 @@ function GetStartedButton({ onClick }: {onClick: () => void}) {
   );
 }
 
-function SettingsButton() {
+function SettingsButton({ onClick, visible }: {onClick: () => void, visible: boolean}) {
+  const ec = visible ? '' : 'hiddenicon';
   return (
-    <button type="submit" className="settingsicon">
+    <button type="submit" className={`settingsicon ${ec}`} onClick={onClick}>
       <Settings size={30} color="#868686" />
+    </button>
+  );
+}
+
+function CheckmarkButton({ onClick, visible }: {onClick: () => void, visible: boolean}) {
+  const ec = visible ? '' : 'hiddenicon';
+  return (
+    <button type="submit" className={`checkicon ${ec}`} onClick={onClick}>
+      <Check size={30} color="#868686" />
     </button>
   );
 }
@@ -58,6 +70,8 @@ function SettingsButton() {
 function App(): JSX.Element {
   const [sessionActive, setSessionActive] = React.useState(false);
   const [captionDisplay, setCaptionDisplay] = React.useState(false);
+  const [settingsOpen, setSettingsOpen] = React.useState(false);
+  const [settingsDisplay, setSettingsDisplay] = React.useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
 
   const [captionText, setCaptionText] = React.useState('');
@@ -95,20 +109,59 @@ function App(): JSX.Element {
     }, 200);
   }
 
-  React.useEffect(() => {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  function openSettings() {
+    setSettingsOpen(true);
+    setTimeout(() => {
+      setSettingsDisplay(true);
+    }, 200);
+  }
+
+  function closeSettings() {
+    setSettingsDisplay(false);
+    setTimeout(() => {
+      setSettingsOpen(false);
+    }, 200);
+  }
+
+  const extraContainerClass = settingsOpen ? 'contenthidden' : '';
+  const extraSettingsClass1 = settingsOpen ? 'settingsvisible' : '';
+  const extraSettingsClass2 = settingsDisplay ? 'settingsfade' : '';
 
   return (
     <>
       <div className={sessionActive ? 'app sessionactive' : 'app splashactive'}>
         <CloseButton />
-        <AbstractSquare />
-        <SettingsButton />
-        <div className="splashcontentcontainer">
+        <AbstractSquare hidden={settingsOpen} />
+        <SettingsButton onClick={() => openSettings()} visible={!settingsDisplay} />
+        <CheckmarkButton onClick={() => closeSettings()} visible={settingsDisplay} />
+        <div className={`splashcontentcontainer ${extraContainerClass}`}>
           <h3 className="slogan">Talk to anyone.</h3>
           <h3 className="slogan">Your way.</h3>
           <GetStartedButton onClick={() => startTranscription()} />
+        </div>
+        <div className={`settingspage ${extraSettingsClass1} ${extraSettingsClass2}`}>
+          <h3 className="slogan">Settings</h3>
+          <div className="settingsform">
+            <div className="formrow">
+              <label htmlFor="positions">Caption position</label>
+              <select id="positions">
+                <option value="topleft">Top Left</option>
+                <option value="topcenter">Top Center</option>
+                <option value="topright">Top Right</option>
+                <option value="bottomleft">Bottom Left</option>
+                <option value="bottomcenter">Bottom Center</option>
+                <option value="bottomright">Bottom Right</option>
+              </select>
+            </div>
+            <div className="formrow">
+              <label htmlFor="fontsizes">Caption text size</label>
+              <select id="fontsizes">
+                <option value="small">Small</option>
+                <option value="medium">Medium</option>
+                <option value="large">Large</option>
+              </select>
+            </div>
+          </div>
         </div>
       </div>
       <div
