@@ -132,6 +132,30 @@ button {
   -webkit-app-region: no-drag;
 }
 
+.settingsicon {
+  position: absolute;
+  bottom: 7px;
+  right: 7px;
+  width: 45px;
+  height: 45px;
+  transition-duration: 0.2s;
+  cursor: pointer;
+  background-color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  transition-timing-function: cubic-bezier(.01,1.81,.98,-1.34);
+}
+
+.settingsicon:hover {
+  transform: rotate(180deg);
+  transition-duration: 0.2s;
+  cursor: pointer;
+  transition-timing-function: cubic-bezier(.01,1.81,.98,-1.34);
+}
+
 .captioncontaineractive {
   min-height: 115px;
   max-height: 115px;

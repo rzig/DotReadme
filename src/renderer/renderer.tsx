@@ -11,7 +11,7 @@
 import '_public/style.css';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { ArrowRight } from 'react-feather';
+import { ArrowRight, Settings } from 'react-feather';
 import { ipcRenderer } from 'electron';
 
 function CloseButton(): JSX.Element {
@@ -43,6 +43,14 @@ function GetStartedButton({ onClick }: {onClick: () => void}) {
         start your session
       </span>
       <ArrowRight size={20} color="#FFFFFF" />
+    </button>
+  );
+}
+
+function SettingsButton() {
+  return (
+    <button type="submit" className="settingsicon">
+      <Settings size={30} color="#868686" />
     </button>
   );
 }
@@ -96,6 +104,7 @@ function App(): JSX.Element {
       <div className={sessionActive ? 'app sessionactive' : 'app splashactive'}>
         <CloseButton />
         <AbstractSquare />
+        <SettingsButton />
         <div className="splashcontentcontainer">
           <h3 className="slogan">Talk to anyone.</h3>
           <h3 className="slogan">Your way.</h3>
