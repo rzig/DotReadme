@@ -11,6 +11,11 @@ let mainWindow: Electron.BrowserWindow | null;
 function createWindow(): void {
   // Create the browser window.
   mainWindow = new BrowserWindow({
+    maxHeight: 470,
+    maxWidth: 325,
+    minHeight: 470,
+    minWidth: 325,
+    maximizable: false,
     height: 470,
     width: 325,
     transparent: true,
