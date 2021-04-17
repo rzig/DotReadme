@@ -20,6 +20,7 @@ function createWindow(): void {
     width: 325,
     transparent: true,
     frame: false,
+    resizable: false,
   });
 
   // and load the index.html of the app.

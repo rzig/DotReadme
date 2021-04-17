@@ -87,6 +87,7 @@ h1,h2,h3,h4,h5,h6 {
   left: 7px;
   transition-duration: 0.2s;
   cursor: pointer;
+  -webkit-app-region: no-drag;
 }
 
 .close:hover {
@@ -120,4 +121,8 @@ h1,h2,h3,h4,h5,h6 {
 .startbutton:hover {
   background-color: #5242ff;
   transition-duration: 0.2s;
+}
+
+button {
+  -webkit-app-region: no-drag;
 }
