@@ -33,9 +33,9 @@ function AbstractSquare(): JSX.Element {
   );
 }
 
-function GetStartedButton() {
+function GetStartedButton({ onClick }: {onClick: () => void}) {
   return (
-    <button type="submit" className="startbutton">
+    <button type="submit" className="startbutton" onClick={onClick}>
       <span>
         start your session
       </span>
@@ -45,14 +45,15 @@ function GetStartedButton() {
 }
 
 function App(): JSX.Element {
+  const [sessionActive, setSessionActive] = React.useState(false);
   return (
-    <div className="app splashactive">
+    <div className={sessionActive ? 'app sessionactive' : 'app splashactive'}>
       <CloseButton />
       <AbstractSquare />
       <div className="splashcontentcontainer">
         <h3 className="slogan">Talk to anyone.</h3>
         <h3 className="slogan">Your way.</h3>
-        <GetStartedButton />
+        <GetStartedButton onClick={() => setSessionActive(true)} />
       </div>
     </div>
   );

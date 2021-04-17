@@ -12,8 +12,6 @@ h1,h2,h3,h4,h5,h6 {
 
 .app {
   font-family: sans-serif;
-  width: 500;
-  height: 500;
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
      -khtml-user-select: none; /* Konqueror HTML */
@@ -26,6 +24,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .splashactive {
+  transition-duration: 0.2s;
   background-color: white;
   border-radius: 10px;
   overflow: hidden;
@@ -34,6 +33,11 @@ h1,h2,h3,h4,h5,h6 {
   */
   -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
   mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);;
+}
+
+.sessionactive {
+  transition-duration: 0.2s;
+  opacity: 0;
 }
 
 .abstractSquare {
@@ -112,6 +116,7 @@ h1,h2,h3,h4,h5,h6 {
   justify-content: center;
   align-items: center;
   transition-duration: 0.2s;
+  outline: none;
 }
 
 .startbutton span {
