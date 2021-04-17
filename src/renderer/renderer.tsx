@@ -9,6 +9,7 @@
 import '_public/style.css';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
+import { ArrowRight } from 'react-feather';
 
 function CloseButton(): JSX.Element {
   function closeWindow() {
@@ -32,6 +33,17 @@ function AbstractSquare(): JSX.Element {
   );
 }
 
+function GetStartedButton() {
+  return (
+    <button type="submit" className="startbutton">
+      <span>
+        Start a session
+      </span>
+      <ArrowRight size={20} color="#FFFFFF" />
+    </button>
+  );
+}
+
 function App(): JSX.Element {
   return (
     <div className="app splashactive">
@@ -40,6 +52,7 @@ function App(): JSX.Element {
       <div className="splashcontentcontainer">
         <h3 className="slogan">Talk to anyone.</h3>
         <h3 className="slogan">Your way.</h3>
+        <GetStartedButton />
       </div>
     </div>
   );

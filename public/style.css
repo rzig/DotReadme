@@ -1,3 +1,10 @@
+/* @font-face {
+  font-family: 'Montserrat Regular';
+  src: url(./Montserrat/Montserrat-Regular.ttf) format("truetype");
+} */
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600;0,800;1,400&display=swap');
+
 h1,h2,h3,h4,h5,h6 {
   margin-top: 0;
   padding-top: 0;
@@ -62,7 +69,10 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .slogan {
-  margin-bottom: 10px;;
+  margin-bottom: 8px;
+  font-family: 'Montserrat';
+  font-weight: 300;
+  font-size: 25px;
 }
 
 .close {
@@ -79,5 +89,32 @@ h1,h2,h3,h4,h5,h6 {
 
 .close:hover {
   filter: brightness(85%);
+  transition-duration: 0.2s;
+}
+
+.startbutton { 
+  margin-top: 20px;
+  background-color: #6B5DFF;
+  width: 70%;
+  border-radius: 50px;
+  height: 50px;
+  border-style: none;
+  color: white;
+  font-family: 'Montserrat';
+  font-weight: 200;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  transition-duration: 0.2s;
+}
+
+.startbutton span {
+  margin-right: 10px;
+}
+
+.startbutton:hover {
+  background-color: #5242ff;
   transition-duration: 0.2s;
 }
