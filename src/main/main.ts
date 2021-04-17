@@ -4,7 +4,7 @@
 import * as path from 'path';
 import * as url from 'url';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { BrowserWindow, app } from 'electron';
+import { BrowserWindow, app, ipcMain } from 'electron';
 
 let mainWindow: Electron.BrowserWindow | null;
 
@@ -16,6 +16,9 @@ function createWindow(): void {
     transparent: true,
     frame: false,
     resizable: false,
+    webPreferences: {
+      nodeIntegration: true,
+    },
   });
 
   // and load the index.html of the app.
@@ -60,3 +63,9 @@ app.on('activate', () => {
 
 // In this file you can include the rest of your app"s specific main process
 // code. You can also put them in separate files and require them here.
+
+ipcMain.on('set-ignore-mouse-events', (event, on: boolean) => {
+  // alert(`god it ${on}`);
+  BrowserWindow.fromWebContents(event.sender)?.setIgnoreMouseEvents(on);
+  BrowserWindow.fromWebContents(event.sender)?.setAlwaysOnTop(true);
+});

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable max-len */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
@@ -11,6 +12,7 @@ import '_public/style.css';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { ArrowRight } from 'react-feather';
+import { ipcRenderer } from 'electron';
 
 function CloseButton(): JSX.Element {
   function closeWindow() {
@@ -64,7 +66,9 @@ function App(): JSX.Element {
     setTimeout(() => {
       // eslint-disable-next-line no-restricted-globals
       window.resizeTo(screen.width, screen.height);
+      // (window as unknown as BrowserWindow).setIgnoreMouseEvents(true);
       setCaptionDisplay(true);
+      ipcRenderer.send('set-ignore-mouse-events', true);
       const input1 = 'We begin by finding a linear transformation from any quadrilateral';
       const input2 = ' to the master element, and then computing the Jacobian.';
       let time = 1;
