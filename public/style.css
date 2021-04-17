@@ -131,3 +131,58 @@ h1,h2,h3,h4,h5,h6 {
 button {
   -webkit-app-region: no-drag;
 }
+
+.captioncontaineractive {
+  min-height: 115px;
+  max-height: 115px;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  transition-duration: 0.2s;
+  -webkit-app-region: no-drag;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Old versions of Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Opera and Firefox */
+}
+
+.captioncontaineractive * {
+  -webkit-app-region: no-drag;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Old versions of Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Opera and Firefox */
+}
+
+.captioncontainerinactive {
+  opacity: 0;
+  transition-duration: 0.2s;
+}
+
+.caption {
+  color: white;
+  font-size: 45px;
+  font-family: 'Montserrat';
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  width: 40vw;
+  background-color: rgba(0,0,0,.7);
+  line-height: 57.5px;
+}
+
+.bottomresizebar {
+  position: absolute;
+  width: 500;
+  height: 10;
+  bottom: 0;
+  background-color: blue;
+}

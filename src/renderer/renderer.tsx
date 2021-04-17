@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/control-has-associated-label */
@@ -46,16 +47,66 @@ function GetStartedButton({ onClick }: {onClick: () => void}) {
 
 function App(): JSX.Element {
   const [sessionActive, setSessionActive] = React.useState(false);
+  const [captionDisplay, setCaptionDisplay] = React.useState(false);
+  const containerRef = React.useRef<HTMLDivElement>(null);
+
+  const [captionText, setCaptionText] = React.useState('');
+
+  function addNewText(text: string): void {
+    setCaptionText((old) => old + text);
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
+  }
+
+  function startTranscription() {
+    setSessionActive(true);
+    setTimeout(() => {
+      // eslint-disable-next-line no-restricted-globals
+      window.resizeTo(screen.width, screen.height);
+      setCaptionDisplay(true);
+      const input1 = 'We begin by finding a linear transformation from any quadrilateral';
+      const input2 = ' to the master element, and then computing the Jacobian.';
+      let time = 1;
+      input1.split(' ').forEach((word) => {
+        setTimeout(() => {
+          addNewText(`${word} `);
+        }, time * 200);
+        time += 1;
+      });
+      input2.split(' ').forEach((word) => {
+        setTimeout(() => {
+          addNewText(`${word} `);
+        }, time * 200);
+        time += 1;
+      });
+    }, 200);
+  }
+
+  React.useEffect(() => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
-    <div className={sessionActive ? 'app sessionactive' : 'app splashactive'}>
-      <CloseButton />
-      <AbstractSquare />
-      <div className="splashcontentcontainer">
-        <h3 className="slogan">Talk to anyone.</h3>
-        <h3 className="slogan">Your way.</h3>
-        <GetStartedButton onClick={() => setSessionActive(true)} />
+    <>
+      <div className={sessionActive ? 'app sessionactive' : 'app splashactive'}>
+        <CloseButton />
+        <AbstractSquare />
+        <div className="splashcontentcontainer">
+          <h3 className="slogan">Talk to anyone.</h3>
+          <h3 className="slogan">Your way.</h3>
+          <GetStartedButton onClick={() => startTranscription()} />
+        </div>
       </div>
-    </div>
+      <div
+        className={captionDisplay ? 'captioncontaineractive' : 'captioncontainerinactive'}
+        ref={containerRef}
+      >
+        <p className="caption">
+          {captionText}
+        </p>
+      </div>
+    </>
   );
 }
 
