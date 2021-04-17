@@ -3,7 +3,7 @@
   src: url(./Montserrat/Montserrat-Regular.ttf) format("truetype");
 } */
 
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,600;0,800;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap');
 
 h1,h2,h3,h4,h5,h6 {
   margin-top: 0;
@@ -37,7 +37,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .abstractSquare {
-  border-radius: 30px;
+  border-radius: 25px;
   background-color: #6B5DFF;
   width: 70vw;
   height: 70vw;
@@ -48,11 +48,13 @@ h1,h2,h3,h4,h5,h6 {
   opacity: .3;
   left: 90vw;
   top: -10vh;
+  max-width: 200px;
+  max-height: 200px;
   transform: rotate(-45deg);
 }
 
 .lowerLeft {
-  opacity: 1;
+  opacity: 0.7;
   transform: rotate(-43deg);
   top: 70vh;
   left: -50vw;
@@ -71,8 +73,8 @@ h1,h2,h3,h4,h5,h6 {
 .slogan {
   margin-bottom: 8px;
   font-family: 'Montserrat';
-  font-weight: 300;
-  font-size: 25px;
+  font-weight: 700;
+  font-size: 2rem;
 }
 
 .close {
@@ -94,6 +96,7 @@ h1,h2,h3,h4,h5,h6 {
 
 .startbutton { 
   margin-top: 20px;
+  max-width: 200px;
   background-color: #6B5DFF;
   width: 70%;
   border-radius: 50px;
@@ -101,7 +104,7 @@ h1,h2,h3,h4,h5,h6 {
   border-style: none;
   color: white;
   font-family: 'Montserrat';
-  font-weight: 200;
+  font-weight: 500;
   cursor: pointer;
   display: flex;
   flex-direction: row;

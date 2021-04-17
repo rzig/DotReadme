@@ -37,7 +37,7 @@ function GetStartedButton() {
   return (
     <button type="submit" className="startbutton">
       <span>
-        Start a session
+        start your session
       </span>
       <ArrowRight size={20} color="#FFFFFF" />
     </button>
