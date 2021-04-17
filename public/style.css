@@ -1,3 +1,83 @@
+h1,h2,h3,h4,h5,h6 {
+  margin-top: 0;
+  padding-top: 0;
+}
+
 .app {
-  color: grey;
+  font-family: sans-serif;
+  width: 500;
+  height: 500;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+  width: 100vw;
+  height: 100vh;
+}
+
+.splashactive {
+  background-color: white;
+  border-radius: 10px;
+  overflow: hidden;
+  /*
+    https://stackoverflow.com/questions/5736503/how-to-make-css3-rounded-corners-hide-overflow-in-chrome-opera
+  */
+  -webkit-mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);
+  mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);;
+}
+
+.abstractSquare {
+  border-radius: 30px;
+  background-color: #6B5DFF;
+  width: 70vw;
+  height: 70vw;
+  position: absolute;
+}
+
+.topRight {
+  opacity: .3;
+  left: 90vw;
+  top: -10vh;
+  transform: rotate(-45deg);
+}
+
+.lowerLeft {
+  opacity: 1;
+  transform: rotate(-43deg);
+  top: 70vh;
+  left: -50vw;
+}
+
+.splashcontentcontainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.slogan {
+  margin-bottom: 10px;;
+}
+
+.close {
+  background-color: #FF605C;
+  width: 13px;
+  height: 13px;
+  border-radius: 25px;
+  position: absolute;
+  top: 7px;
+  left: 7px;
+  transition-duration: 0.2s;
+  cursor: pointer;
+}
+
+.close:hover {
+  filter: brightness(85%);
+  transition-duration: 0.2s;
 }

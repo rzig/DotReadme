@@ -1,16 +1,56 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/control-has-associated-label */
+/* eslint-disable import/extensions */
 /**
  * React renderer.
  */
 // Import the styles here to process them with webpack
 import '_public/style.css';
-
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
+function CloseButton(): JSX.Element {
+  function closeWindow() {
+    window.close();
+  }
+
+  return (
+    <div
+      className="close"
+      onClick={closeWindow}
+    />
+  );
+}
+
+function AbstractSquare(): JSX.Element {
+  return (
+    <>
+      <div className="abstractSquare topRight" />
+      <div className="abstractSquare lowerLeft" />
+    </>
+  );
+}
+
+function App(): JSX.Element {
+  return (
+    <div className="app splashactive">
+      <CloseButton />
+      <AbstractSquare />
+      <div className="splashcontentcontainer">
+        <h3 className="slogan">Talk to anyone.</h3>
+        <h3 className="slogan">Your way.</h3>
+      </div>
+    </div>
+  );
+}
+
 ReactDOM.render(
-  <div className="app">
-    <h4>Welcome to React, Electron and Dartmouth</h4>
-    <p>Hello</p>
+  <div style={{
+    width: '100%', height: '100%', margin: 0, overflow: 'hidden',
+  }}
+  >
+    <App />
   </div>,
   document.getElementById('app'),
 );
