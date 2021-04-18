@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable max-len */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/control-has-associated-label */
@@ -9,8 +12,9 @@
 import '_public/style.css';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
-import { ArrowRight } from 'react-feather';
+import { ArrowRight, Check, Settings } from 'react-feather';
 import { ipcRenderer } from 'electron';
+import TTSForm from './TTS';
 
 function CloseButton(): JSX.Element {
   function closeWindow() {
@@ -25,18 +29,19 @@ function CloseButton(): JSX.Element {
   );
 }
 
-function AbstractSquare(): JSX.Element {
+function AbstractSquare({ hidden }: {hidden: boolean}): JSX.Element {
+  const extraClass = hidden ? 'hiddenSquare' : '';
   return (
     <>
-      <div className="abstractSquare topRight" />
-      <div className="abstractSquare lowerLeft" />
+      <div className={`abstractSquare topRight ${extraClass}`} />
+      <div className={`abstractSquare lowerLeft ${extraClass}`} />
     </>
   );
 }
 
 function GetStartedButton({ onClick }: {onClick: () => void}) {
   return (
-    <button type="submit" className="startbutton">
+    <button type="submit" className="startbutton" onClick={onClick}>
       <span>
         start your session
       </span>
@@ -45,50 +50,127 @@ function GetStartedButton({ onClick }: {onClick: () => void}) {
   );
 }
 
-function TextEnterForm({ onClick }: {onClick: () => void}): JSX.Element {
-  let text;
-  function handleChange() {
-
-  }
-
+function SettingsButton({ onClick, visible }: {onClick: () => void, visible: boolean}) {
+  const ec = visible ? '' : 'hiddenicon';
   return (
-    <form onSubmit={onClick}>        
-      <label>
-        Name:
-        <input type="text" value={} onChange={this.handleChange} />        
-      </label>
-      <input type="submit" value="Submit" />  
-    </form>
+    <button type="submit" className={`settingsicon ${ec}`} onClick={onClick}>
+      <Settings size={30} color="#868686" />
+    </button>
   );
 }
 
+function CheckmarkButton({ onClick, visible }: {onClick: () => void, visible: boolean}) {
+  const ec = visible ? '' : 'hiddenicon';
+  return (
+    <button type="submit" className={`checkicon ${ec}`} onClick={onClick}>
+      <Check size={30} color="#868686" />
+    </button>
+  );
+}
+
+type CaptionPosition = 'topleft' | 'topcenter' | 'topright' | 'bottomleft' | 'bottomcenter' | 'bottomright';
+type CaptionTextSize = 'small' | 'medium' | 'large';
+
 function App(): JSX.Element {
-  function OnClickSpeak() {
-    let text = "Hello, world";
-    let speed = 1; // Defaults
-    let pitch = 1;
-    let filename = "output";
-    if (text.length > 1) {
-      let options = {
-        text: text,
-        speed: speed,
-        pitch: pitch,
-        filename: filename
-      };
-      ipcRenderer.send("generate-voice", options);
+  const [sessionActive, setSessionActive] = React.useState(false);
+  const [captionDisplay, setCaptionDisplay] = React.useState(false);
+  const [settingsOpen, setSettingsOpen] = React.useState(false);
+  const [settingsDisplay, setSettingsDisplay] = React.useState(false);
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const [captionPosition, setCaptionPosition] = React.useState<CaptionPosition>('topleft');
+  const [captionTextSize, setCaptionTextSize] = React.useState<CaptionTextSize>('medium');
+
+  const [captionText, setCaptionText] = React.useState('');
+
+  function addNewText(text: string): void {
+    setCaptionText((old) => old + text);
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
   }
 
+  function startTranscription() {
+    setSessionActive(true);
+    setTimeout(() => {
+      // eslint-disable-next-line no-restricted-globals
+      window.resizeTo(screen.width, screen.height);
+      // (window as unknown as BrowserWindow).setIgnoreMouseEvents(true);
+      setCaptionDisplay(true);
+      ipcRenderer.send('set-ignore-mouse-events', true);
+    }, 200);
+  }
+
+  function openSettings() {
+    setSettingsOpen(true);
+    setTimeout(() => {
+      setSettingsDisplay(true);
+    }, 200);
+  }
+
+  function closeSettings() {
+    setSettingsDisplay(false);
+    setTimeout(() => {
+      setSettingsOpen(false);
+    }, 200);
+  }
+
+  const extraContainerClass = settingsOpen ? 'contenthidden' : '';
+  const extraSettingsClass1 = settingsOpen ? 'settingsvisible' : '';
+  const extraSettingsClass2 = settingsDisplay ? 'settingsfade' : '';
+
+  React.useEffect(() => {
+    ipcRenderer.on('new-caption-text', (event, words: string[]) => {
+      addNewText(words.reduce((i, w) => `${i} ${w}`, ''));
+    });
+  }, []);
+
   return (
-    <div className="app splashactive">
-      <CloseButton />
-      <AbstractSquare />
-      <div className="splashcontentcontainer">
-        <h3 className="slogan">Talk to anyone.</h3>
-        <h3 className="slogan">Your way.</h3>
-        <GetStartedButton onClick={() => OnClickSpeak()} />
+    <>
+      <div className={sessionActive ? 'app sessionactive' : 'app splashactive'}>
+        <CloseButton />
+        <AbstractSquare hidden={settingsOpen} />
+        <SettingsButton onClick={() => openSettings()} visible={!settingsDisplay} />
+        <CheckmarkButton onClick={() => closeSettings()} visible={settingsDisplay} />
+        <div className={`splashcontentcontainer ${extraContainerClass}`}>
+          <h3 className="slogan">Talk to anyone.</h3>
+          <h3 className="slogan">Your way.</h3>
+          <GetStartedButton onClick={() => startTranscription()} />
+          <TTSForm />
+        </div>
+        <div className={`settingspage ${extraSettingsClass1} ${extraSettingsClass2}`}>
+          <h3 className="slogan">Settings</h3>
+          <div className="settingsform">
+            <div className="formrow">
+              <label htmlFor="positions">Caption position</label>
+              <select id="positions" value={captionPosition} onChange={(e) => { setCaptionPosition(e.target.value as CaptionPosition); }}>
+                <option value="topleft">Top Left</option>
+                <option value="topcenter">Top Center</option>
+                <option value="topright">Top Right</option>
+                <option value="bottomleft">Bottom Left</option>
+                <option value="bottomcenter">Bottom Center</option>
+                <option value="bottomright">Bottom Right</option>
+              </select>
+            </div>
+            <div className="formrow">
+              <label htmlFor="fontsizes">Caption text size</label>
+              <select id="fontsizes" value={captionTextSize} onChange={(e) => { setCaptionTextSize(e.target.value as CaptionTextSize); }}>
+                <option value="small">Small</option>
+                <option value="medium">Medium</option>
+                <option value="large">Large</option>
+              </select>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+      <div
+        className={`${captionPosition} ${captionDisplay ? 'captioncontaineractive' : 'captioncontainerinactive'}`}
+        ref={containerRef}
+      >
+        <p className={`caption ${captionPosition} ${captionTextSize} `}>
+          {captionText}
+        </p>
+      </div>
+    </>
   );
 }
 
