@@ -82,7 +82,7 @@ function App(): JSX.Element {
   const [captionText, setCaptionText] = React.useState('');
 
   function addNewText(text: string): void {
-    setCaptionText((old) => old + text);
+    setCaptionText(text);
     if (containerRef.current) {
       containerRef.current.scrollTop = containerRef.current.scrollHeight;
     }
@@ -131,8 +131,8 @@ function App(): JSX.Element {
         <SettingsButton onClick={() => openSettings()} visible={!settingsDisplay} />
         <CheckmarkButton onClick={() => closeSettings()} visible={settingsDisplay} />
         <div className={`splashcontentcontainer ${extraContainerClass}`}>
-          <h3 className="slogan">Talk to anyone.</h3>
-          <h3 className="slogan">Your way.</h3>
+          <h3 className="slogan">Live captioning.</h3>
+          <h3 className="slogan">System-wide.</h3>
           <GetStartedButton onClick={() => startTranscription()} />
         </div>
         <div className={`settingspage ${extraSettingsClass1} ${extraSettingsClass2}`}>

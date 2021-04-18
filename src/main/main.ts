@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /**
  * Entry point of the Election app.
  */
@@ -7,6 +8,10 @@ import * as url from 'url';
 import {
   BrowserWindow, app, ipcMain, webContents,
 } from 'electron';
+
+import { Express } from 'express';
+
+const express = require('express');
 
 let mainWindow: Electron.BrowserWindow | null;
 
@@ -22,6 +27,24 @@ function createWindow(): void {
       nodeIntegration: true,
     },
     title: 'DotReadme',
+  });
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const server = express() as Express;
+
+  server.get('/', (req, res) => {
+    res.send('Hi');
+  });
+
+  server.get('/getwords', (req, res) => {
+    const { text } = req.query as {text: string};
+    const words = text.split(' ');
+    webContents.getAllWebContents()[0].send('new-caption-text', words);
+    res.send('OK');
+  });
+
+  server.listen(3001, () => {
+    // pass
   });
 
   // and load the index.html of the app.
@@ -68,17 +91,6 @@ app.on('activate', () => {
 // code. You can also put them in separate files and require them here.
 
 ipcMain.on('set-ignore-mouse-events', (event, on: boolean) => {
-  // alert(`god it ${on}`);
   BrowserWindow.fromWebContents(event.sender)?.setIgnoreMouseEvents(on);
   BrowserWindow.fromWebContents(event.sender)?.setAlwaysOnTop(true);
-});
-
-// eslint-disable-next-line max-len
-const input1 = 'We begin by determining a set of linear transformations to map a quadrilateral in R2 to the master element. Then, we compute the Jacobian.';
-let time = 1;
-input1.split(' ').forEach((word) => {
-  setTimeout(() => {
-    webContents.getAllWebContents()[0].send('new-caption-text', [word]);
-  }, time * 800);
-  time += 1;
 });
