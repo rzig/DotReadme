@@ -10,6 +10,7 @@ import '_public/style.css';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { ArrowRight } from 'react-feather';
+import { ipcRenderer } from 'electron';
 
 function CloseButton(): JSX.Element {
   function closeWindow() {
@@ -33,7 +34,7 @@ function AbstractSquare(): JSX.Element {
   );
 }
 
-function GetStartedButton() {
+function GetStartedButton({ onClick }: {onClick: () => void}) {
   return (
     <button type="submit" className="startbutton">
       <span>
@@ -44,7 +45,40 @@ function GetStartedButton() {
   );
 }
 
+function TextEnterForm({ onClick }: {onClick: () => void}): JSX.Element {
+  let text;
+  function handleChange() {
+
+  }
+
+  return (
+    <form onSubmit={onClick}>        
+      <label>
+        Name:
+        <input type="text" value={} onChange={this.handleChange} />        
+      </label>
+      <input type="submit" value="Submit" />  
+    </form>
+  );
+}
+
 function App(): JSX.Element {
+  function OnClickSpeak() {
+    let text = "Hello, world";
+    let speed = 1; // Defaults
+    let pitch = 1;
+    let filename = "output";
+    if (text.length > 1) {
+      let options = {
+        text: text,
+        speed: speed,
+        pitch: pitch,
+        filename: filename
+      };
+      ipcRenderer.send("generate-voice", options);
+    }
+  }
+
   return (
     <div className="app splashactive">
       <CloseButton />
@@ -52,7 +86,7 @@ function App(): JSX.Element {
       <div className="splashcontentcontainer">
         <h3 className="slogan">Talk to anyone.</h3>
         <h3 className="slogan">Your way.</h3>
-        <GetStartedButton />
+        <GetStartedButton onClick={() => OnClickSpeak()} />
       </div>
     </div>
   );

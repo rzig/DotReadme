@@ -4,9 +4,16 @@
 import * as path from 'path';
 import * as url from 'url';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { BrowserWindow, app } from 'electron';
+import { BrowserWindow, app, ipcMain } from 'electron';
+import * as protos from "@google-cloud/text-to-speech/build/protos/protos"
+import { TextToSpeechClient } from "@google-cloud/text-to-speech/build/src/v1/text_to_speech_client"
+
+const textToSpeech = require('@google-cloud/text-to-speech');
+const fs = require('fs');
+const util = require('util');
 
 let mainWindow: Electron.BrowserWindow | null;
+let client : TextToSpeechClient;
 
 function createWindow(): void {
   // Create the browser window.
@@ -39,6 +46,39 @@ function createWindow(): void {
     // when you should delete the corresponding element.
     mainWindow = null;
   });
+
+  initGoogleService();
+}
+
+function initGoogleService() {
+  client = new textToSpeech.TextToSpeechClient();
+  console.log(client);
+}
+
+ipcMain.on('generate-voice', (event, message) => {
+  let request = {
+    input: {text: "Hello, world"},
+    voice: {name: 'en-US'},
+    audioConfig: {
+      audioEncoding: protos.google.cloud.texttospeech.v1.AudioEncoding.MP3,
+      pitch: message.pitch,
+      speakingRate: message.speed
+    }
+  };
+
+  makeRequest(request, `${message.filename}.mp3`).then(() => {
+    console.log("Success");
+  }).catch((err) => {
+    console.error("ERROR: ", err);
+  });
+});
+
+async function makeRequest(request: protos.google.cloud.texttospeech.v1.ISynthesizeSpeechRequest, filename: string) {
+  let final_destination = path.join(app.getPath("downloads"), filename);
+  const [response] = await client.synthesizeSpeech(request);
+  const fileWrite = util.promisify(fs.writeFile);
+  await fileWrite(final_destination, response.audioContent, 'binary');
+
 }
 
 // This method will be called when Electron has finished
