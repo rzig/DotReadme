@@ -209,8 +209,8 @@ button {
   max-height: 115px;
   overflow: hidden;
   position: absolute;
+  left: 0px;
   top: 0;
-  left: 0;
   width: 100vw;
   transition-duration: 0.2s;
   -webkit-app-region: no-drag;
@@ -221,6 +221,15 @@ button {
       -ms-user-select: none; /* Internet Explorer/Edge */
           user-select: none; /* Non-prefixed version, currently
                                 supported by Chrome, Edge, Opera and Firefox */
+}
+
+.captioncontaineractive.topleft .captioncontaineractive.topcenter .captioncontaineractive.topright {
+  top: 0px;
+}
+
+.captioncontaineractive.bottomleft, .captioncontaineractive.bottomcenter, .captioncontaineractive.bottomright {
+  top: calc(100vh - 115px) !important;
+  bottom: 0px !important;
 }
 
 .captioncontaineractive * {
@@ -249,6 +258,29 @@ button {
   width: 40vw;
   background-color: rgba(0,0,0,.7);
   line-height: 57.5px;
+
+}
+
+.caption.topcenter {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.caption.bottomcenter {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.caption.topright {
+  margin-left: auto;
+}
+
+.caption.bottomright {
+  margin-left: auto;
+}
+
+.caption.bottomleft {
+  padding-top: 100vh;
 }
 
 .settingspage {

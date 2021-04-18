@@ -67,12 +67,17 @@ function CheckmarkButton({ onClick, visible }: {onClick: () => void, visible: bo
   );
 }
 
+type CaptionPosition = 'topleft' | 'topcenter' | 'topright' | 'bottomleft' | 'bottomcenter' | 'bottomright';
+type CaptionTextSize = 'small' | 'medium' | 'large';
+
 function App(): JSX.Element {
   const [sessionActive, setSessionActive] = React.useState(false);
   const [captionDisplay, setCaptionDisplay] = React.useState(false);
   const [settingsOpen, setSettingsOpen] = React.useState(false);
   const [settingsDisplay, setSettingsDisplay] = React.useState(false);
   const containerRef = React.useRef<HTMLDivElement>(null);
+  const [captionPosition, setCaptionPosition] = React.useState<CaptionPosition>('topleft');
+  const [captionTextSize, setCaptionTextSize] = React.useState<CaptionTextSize>('medium');
 
   const [captionText, setCaptionText] = React.useState('');
 
@@ -144,7 +149,7 @@ function App(): JSX.Element {
           <div className="settingsform">
             <div className="formrow">
               <label htmlFor="positions">Caption position</label>
-              <select id="positions">
+              <select id="positions" value={captionPosition} onChange={(e) => { setCaptionPosition(e.target.value as CaptionPosition); }}>
                 <option value="topleft">Top Left</option>
                 <option value="topcenter">Top Center</option>
                 <option value="topright">Top Right</option>
@@ -155,7 +160,7 @@ function App(): JSX.Element {
             </div>
             <div className="formrow">
               <label htmlFor="fontsizes">Caption text size</label>
-              <select id="fontsizes">
+              <select id="fontsizes" value={captionTextSize} onChange={(e) => { setCaptionTextSize(e.target.value as CaptionTextSize); }}>
                 <option value="small">Small</option>
                 <option value="medium">Medium</option>
                 <option value="large">Large</option>
@@ -165,10 +170,10 @@ function App(): JSX.Element {
         </div>
       </div>
       <div
-        className={captionDisplay ? 'captioncontaineractive' : 'captioncontainerinactive'}
+        className={`${captionPosition} ${captionDisplay ? 'captioncontaineractive' : 'captioncontainerinactive'}`}
         ref={containerRef}
       >
-        <p className="caption">
+        <p className={`caption ${captionPosition} ${captionTextSize} `}>
           {captionText}
         </p>
       </div>
