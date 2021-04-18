@@ -12,8 +12,6 @@ h1,h2,h3,h4,h5,h6 {
 
 .app {
   font-family: sans-serif;
-  width: 500;
-  height: 500;
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */
      -khtml-user-select: none; /* Konqueror HTML */
@@ -26,6 +24,7 @@ h1,h2,h3,h4,h5,h6 {
 }
 
 .splashactive {
+  transition-duration: 0.2s;
   background-color: white;
   border-radius: 10px;
   overflow: hidden;
@@ -36,12 +35,18 @@ h1,h2,h3,h4,h5,h6 {
   mask-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAA5JREFUeNpiYGBgAAgwAAAEAAGbA+oJAAAAAElFTkSuQmCC);;
 }
 
+.sessionactive {
+  transition-duration: 0.2s;
+  opacity: 0;
+}
+
 .abstractSquare {
   border-radius: 25px;
   background-color: #6B5DFF;
   width: 70vw;
   height: 70vw;
   position: absolute;
+  transition-duration: 0.2s;
 }
 
 .topRight {
@@ -60,6 +65,21 @@ h1,h2,h3,h4,h5,h6 {
   left: -50vw;
 }
 
+.hiddenSquare {
+  opacity: 0 !important;
+  transition-duration: 0.2s;
+}
+
+.lowerLeft.hiddenSquare {
+  left: -60vw;
+  transform: rotate(10deg);
+}
+
+.topRight.hiddenSquare {
+  left: 100vw;
+  transform: rotate(10deg);
+}
+
 .splashcontentcontainer {
   display: flex;
   flex-direction: column;
@@ -68,6 +88,12 @@ h1,h2,h3,h4,h5,h6 {
   height: 100%;
   margin-left: 20px;
   margin-right: 20px;
+  transition-duration: 0.2s;
+}
+
+.contenthidden {
+  opacity: 0;
+  transition-duration: 0.2s;
 }
 
 .slogan {
@@ -112,6 +138,7 @@ h1,h2,h3,h4,h5,h6 {
   justify-content: center;
   align-items: center;
   transition-duration: 0.2s;
+  outline: none;
 }
 
 .startbutton span {
@@ -125,4 +152,187 @@ h1,h2,h3,h4,h5,h6 {
 
 button {
   -webkit-app-region: no-drag;
+}
+
+.settingsicon {
+  position: absolute;
+  bottom: 7px;
+  right: 7px;
+  width: 45px;
+  height: 45px;
+  transition-duration: 0.2s;
+  cursor: pointer;
+  background-color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  transition-timing-function: cubic-bezier(.01,1.81,.98,-1.34);
+  z-index: 100;
+  transition-duration: 0.2s;
+}
+
+.settingsicon:hover {
+  transform: rotate(180deg);
+  transition-duration: 0.2s;
+  cursor: pointer;
+  transition-timing-function: cubic-bezier(.01,1.81,.98,-1.34);
+}
+
+.checkicon {
+  position: absolute;
+  bottom: 7px;
+  right: 7px;
+  width: 45px;
+  height: 45px;
+  transition-duration: 0.2s;
+  cursor: pointer;
+  background-color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  z-index: 100;
+  transition-duration: 0.2s;
+}
+
+.hiddenicon {
+  opacity: 0;
+  transition-duration: 0.2s;
+  z-index: 90;
+}
+
+.captioncontaineractive {
+  min-height: 115px;
+  max-height: 115px;
+  overflow: hidden;
+  position: absolute;
+  left: 0px;
+  top: 0;
+  width: 100vw;
+  transition-duration: 0.2s;
+  -webkit-app-region: no-drag;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Old versions of Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Opera and Firefox */
+}
+
+.captioncontaineractive.topleft .captioncontaineractive.topcenter .captioncontaineractive.topright {
+  top: 0px;
+}
+
+.captioncontaineractive.bottomleft, .captioncontaineractive.bottomcenter, .captioncontaineractive.bottomright {
+  top: calc(100vh - 115px) !important;
+  bottom: 0px !important;
+}
+
+.captioncontaineractive * {
+  -webkit-app-region: no-drag;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Old versions of Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none; /* Non-prefixed version, currently
+                                supported by Chrome, Edge, Opera and Firefox */
+}
+
+.captioncontainerinactive {
+  opacity: 0;
+  transition-duration: 0.2s;
+}
+
+.caption {
+  color: white;
+  font-family: 'Montserrat';
+  font-weight: 400;
+  margin: 0;
+  padding: 0;
+  width: 40vw;
+  background-color: rgba(0,0,0,.7);
+}
+
+.caption.medium {
+  font-size: 45px;
+  line-height: 57.5px;
+}
+
+.caption.small {
+  font-size: 27px;
+  line-height: 38.4px;
+}
+
+.caption.large {
+  font-size: 60px;
+  line-height: 115px;
+}
+
+.caption.topcenter {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.caption.bottomcenter {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.caption.topright {
+  margin-left: auto;
+}
+
+.caption.bottomright {
+  margin-left: auto;
+}
+
+.caption.bottomleft {
+  padding-top: 100vh;
+}
+
+.settingspage {
+  -webkit-app-region: no-drag;
+  position: absolute;
+  width: 100vw;
+  height: calc(100vh - 95px);
+  padding: 10px;
+  opacity: 0;
+  transition-duration: 0.2s;
+  top: 20px;
+  left: 0;
+  display: none;
+}
+
+.settingsvisible {
+  display: block;
+}
+
+.settingsfade {
+  opacity: 1;
+  transition-duration: 0.2s;
+  display: block;
+}
+
+label {
+  font-family: 'Montserrat';
+  margin-right: 25px;
+}
+
+select {
+  padding: 5px;
+  border-radius: 3px;
+  outline: none;
+  font-family: 'Montserrat';
+  font-weight: 600;
+  font-size: 14px;
+  right: 0;
+}
+
+.formrow {
+  margin-top: 20px;
 }
