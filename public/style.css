@@ -250,15 +250,27 @@ button {
 
 .caption {
   color: white;
-  font-size: 45px;
   font-family: 'Montserrat';
   font-weight: 400;
   margin: 0;
   padding: 0;
   width: 40vw;
   background-color: rgba(0,0,0,.7);
-  line-height: 57.5px;
+}
 
+.caption.medium {
+  font-size: 45px;
+  line-height: 57.5px;
+}
+
+.caption.small {
+  font-size: 27px;
+  line-height: 38.4px;
+}
+
+.caption.large {
+  font-size: 60px;
+  line-height: 115px;
 }
 
 .caption.topcenter {
