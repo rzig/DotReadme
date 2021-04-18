@@ -4,7 +4,9 @@
 import * as path from 'path';
 import * as url from 'url';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { BrowserWindow, app, ipcMain } from 'electron';
+import {
+  BrowserWindow, app, ipcMain, webContents,
+} from 'electron';
 
 let mainWindow: Electron.BrowserWindow | null;
 
@@ -68,4 +70,14 @@ ipcMain.on('set-ignore-mouse-events', (event, on: boolean) => {
   // alert(`god it ${on}`);
   BrowserWindow.fromWebContents(event.sender)?.setIgnoreMouseEvents(on);
   BrowserWindow.fromWebContents(event.sender)?.setAlwaysOnTop(true);
+});
+
+// eslint-disable-next-line max-len
+const input1 = 'We begin by determining a set of linear transformations to map a quadrilateral in R2 to the master element. Then, we compute the Jacobian.';
+let time = 1;
+input1.split(' ').forEach((word) => {
+  setTimeout(() => {
+    webContents.getAllWebContents()[0].send('new-caption-text', [word]);
+  }, time * 800);
+  time += 1;
 });

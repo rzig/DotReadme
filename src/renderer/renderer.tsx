@@ -96,21 +96,6 @@ function App(): JSX.Element {
       // (window as unknown as BrowserWindow).setIgnoreMouseEvents(true);
       setCaptionDisplay(true);
       ipcRenderer.send('set-ignore-mouse-events', true);
-      const input1 = 'We begin by finding a linear transformation from any quadrilateral';
-      const input2 = ' to the master element, and then computing the Jacobian.';
-      let time = 1;
-      input1.split(' ').forEach((word) => {
-        setTimeout(() => {
-          addNewText(`${word} `);
-        }, time * 200);
-        time += 1;
-      });
-      input2.split(' ').forEach((word) => {
-        setTimeout(() => {
-          addNewText(`${word} `);
-        }, time * 200);
-        time += 1;
-      });
     }, 200);
   }
 
@@ -131,6 +116,12 @@ function App(): JSX.Element {
   const extraContainerClass = settingsOpen ? 'contenthidden' : '';
   const extraSettingsClass1 = settingsOpen ? 'settingsvisible' : '';
   const extraSettingsClass2 = settingsDisplay ? 'settingsfade' : '';
+
+  React.useEffect(() => {
+    ipcRenderer.on('new-caption-text', (event, words: string[]) => {
+      addNewText(words.reduce((i, w) => `${i} ${w}`, ''));
+    });
+  }, []);
 
   return (
     <>
