@@ -21,6 +21,7 @@ function createWindow(): void {
     webPreferences: {
       nodeIntegration: true,
     },
+    title: 'DotReadme',
   });
 
   // and load the index.html of the app.
